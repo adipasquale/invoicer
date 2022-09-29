@@ -5,6 +5,8 @@ GEM
       json (~> 2.1)
       prawn (~> 2.2)
       prawn-table (~> 0.2.2)
+    invoice_printer_fonts (2.2.0)
+      invoice_printer (= 2.2.0)
     invoice_printer_server (2.2.0)
       invoice_printer (= 2.2.0)
       json (~> 2.1)
@@ -31,6 +33,7 @@ PLATFORMS
 
 DEPENDENCIES
   invoice_printer
+  invoice_printer_fonts
   invoice_printer_server
   matrix
 

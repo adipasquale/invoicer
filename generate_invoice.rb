@@ -1,5 +1,10 @@
 require 'invoice_printer'
 
+numero = '38'
+today = Date.today
+full_num = "2022#{today.strftime('%m')}-#{numero}"
+file_name = "facture_out_of_screen_#{full_num}.pdf"
+
 def euro(number)
   format '%.2f €', number
 end
@@ -7,7 +12,6 @@ end
 def format_item(item_raw)
   InvoicePrinter::Document::Item.new(
     name: item_raw.name,
-    unit: item_raw.unit,
     quantity: item_raw.quantity.to_s,
     price: euro(item_raw.price),
     amount: euro(item_raw.amount)
@@ -15,7 +19,7 @@ def format_item(item_raw)
   )
 end
 
-item_raw_struct = Struct.new(:name, :unit, :quantity, :price) do
+item_raw_struct = Struct.new(:name, :quantity, :price) do
   def amount
     price * quantity
   end
@@ -26,11 +30,12 @@ item_raw_struct = Struct.new(:name, :unit, :quantity, :price) do
 end
 
 items_raw = [
-  ['Jour de travail', 'jour', 10, 650]
+  ["Jours de travail\nProjet Collectif Objets", 17, 650],
+  ["Zyte - Abonnement mensuel\nservice de scraping", 1, 9.18]
 ].map { item_raw_struct.new(*_1) }
 
 InvoicePrinter.labels = {
-  name: 'Facture',
+  name: 'Août 2022',
   provider: 'Émetteur',
   purchaser: 'Destinataire',
   tax_id: 'Numéro de TVA',
@@ -41,23 +46,19 @@ InvoicePrinter.labels = {
   iban: 'IBAN',
   issue_date: "Date d'émission",
   due_date: 'Date limite de règlement',
-  # variable_symbol: 'Variable symbol',
   item: 'Item',
   variable: '',
   quantity: 'Quantité',
-  unit: 'Unité',
   price_per_item: 'Prix unitaire HT',
   amount: 'Total HT',
   tax: 'TVA 20%',
-  # tax2: 'Tax 2',
-  # tax3: 'Tax 3',
   subtotal: 'Total HT',
   total: 'Total TTC'
 }
 
 InvoicePrinter.print(
   document: InvoicePrinter::Document.new(
-    number: 'Facture numéro 202209-38',
+    number: "Facture numéro #{full_num}",
     provider_name: 'OUT OF SCREEN',
     provider_lines: [
       '122 rue Amelot, 75011, Paris',
@@ -71,8 +72,8 @@ InvoicePrinter.print(
       '502529795',
       'Numéro de TVA FR71502529795'
     ].join("\n"),
-    issue_date: '27/09/2022',
-    due_date: '27/12/2022',
+    issue_date: today.strftime('%d/%m/%Y'),
+    due_date: (today + 90).strftime('%d/%m/%Y'),
     subtotal: euro(items_raw.map(&:amount).sum),
     tax: euro(items_raw.map(&:tax).sum),
     total: euro(items_raw.map(&:amount).sum * 1.2),
@@ -83,5 +84,8 @@ InvoicePrinter.print(
     ].join("\n"),
     items: items_raw.map { format_item(_1) }
   ),
-  file_name: 'facture.pdf'
+  file_name:,
+  font: 'overpass'
 )
+
+`open #{file_name}`
