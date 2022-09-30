@@ -35,7 +35,7 @@ items_raw = [
 ].map { item_raw_struct.new(*_1) }
 
 InvoicePrinter.labels = {
-  name: 'Août 2022',
+  name: 'Septembre 2022',
   provider: 'Émetteur',
   purchaser: 'Destinataire',
   tax_id: 'Numéro de TVA',
