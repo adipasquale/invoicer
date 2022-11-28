@@ -1,9 +1,9 @@
 require 'invoice_printer'
 
-numero = '38'
+numero = '39'
 today = Date.today
 full_num = "2022#{today.strftime('%m')}-#{numero}"
-file_name = "facture_out_of_screen_#{full_num}.pdf"
+file_name = "facture_piano_piano_#{full_num}.pdf"
 
 def euro(number)
   format '%.2f €', number
@@ -30,12 +30,12 @@ item_raw_struct = Struct.new(:name, :quantity, :price) do
 end
 
 items_raw = [
-  ["Jours de travail\nProjet Collectif Objets", 17, 650],
-  ["Zyte - Abonnement mensuel\nservice de scraping", 1, 9.18]
+  ["Jours de travail\nProjet Collectif Objets", 20, 650],
+  ["Nextcloud Ethibox - Abonnement mensuel\nservice de collaboration", 1, 19]
 ].map { item_raw_struct.new(*_1) }
 
 InvoicePrinter.labels = {
-  name: 'Septembre 2022',
+  name: 'Novembre 2022',
   provider: 'Émetteur',
   purchaser: 'Destinataire',
   tax_id: 'Numéro de TVA',
@@ -59,11 +59,11 @@ InvoicePrinter.labels = {
 InvoicePrinter.print(
   document: InvoicePrinter::Document.new(
     number: "Facture numéro #{full_num}",
-    provider_name: 'OUT OF SCREEN',
+    provider_name: 'Piano Piano',
     provider_lines: [
-      '122 rue Amelot, 75011, Paris',
-      'adrien@outofscreen.com',
-      '84526029800011',
+      '6 rue de la vigne, 22770, Lancieux',
+      'adrien@pianopiano.fr',
+      '84526029800037',
       'Numéro de TVA FR19845260298'
     ].join("\n"),
     purchaser_name: 'SCOP /ut7',
