@@ -1,6 +1,6 @@
 require 'invoice_printer'
 
-numero = '39'
+numero = '40'
 today = Date.today
 full_num = "2022#{today.strftime('%m')}-#{numero}"
 file_name = "facture_piano_piano_#{full_num}.pdf"
