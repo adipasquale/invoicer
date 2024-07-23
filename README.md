@@ -10,5 +10,5 @@ based on the [`invoice_printer gem`](https://github.com/strzibny/invoice_printer
 
 ```sh
 bundle install
-bundle exec ruby generate_invoice.rb
+bundle exec ruby generate_invoice.rb --numero 05 --name "Juillet 2024" --days "15" --taux-journalier-moyen "500"
 ```
