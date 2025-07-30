@@ -42,7 +42,7 @@ unless options[:name]
 end
 
 today = Date.today
-full_num = "2024#{today.strftime('%m')}-#{options[:numero]}"
+full_num = "2025-#{options[:numero].rjust(3, '0')}"
 
 def euro(number)
   format '%.2f €', number
@@ -64,7 +64,7 @@ item_raw_struct = Struct.new(:name, :quantity, :price) do
   end
 
   def tax
-    amount * 0.2
+    0.2 * amount
   end
 
   def ttc
@@ -73,7 +73,7 @@ item_raw_struct = Struct.new(:name, :quantity, :price) do
 end
 
 items_raw = [
-  ["Jours de travail\nRDV Service Public", options[:days], options[:tjm],
+  ["Jours de travail\nRDV Service Public", options[:days], options[:tjm]],
 ].map { item_raw_struct.new(*_1) }
 
 total_ttc = items_raw.map(&:ttc).sum
